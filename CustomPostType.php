@@ -2,6 +2,7 @@
 
 namespace Palmtree\WordPress\CustomPostType;
 
+use Palmtree\NameConverter\SnakeCaseToCamelCaseNameConverter;
 use Palmtree\ArgParser\ArgParser;
 
 class CustomPostType
@@ -278,7 +279,7 @@ class CustomPostType
 
     protected function parseArgs($args)
     {
-        $parser = new ArgParser($args, 'postType');
+        $parser = new ArgParser($args, 'post_type', new SnakeCaseToCamelCaseNameConverter());
 
         $parser->parseSetters($this);
 

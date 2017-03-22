@@ -1,10 +1,11 @@
 {
-  "name": "palmtree/wordpress-custom-post-type",
+  "name": "palmtree/wp-custom-post-type",
   "type": "library",
   "description": "WordPress Custom Post Types",
   "license": "MIT",
   "require": {
-    "palmtree/argparser": "^1.0"
+    "palmtree/argparser": "^1.1",
+    "palmtree/nameconverter": "^1.0"
   },
   "authors": [
     {
