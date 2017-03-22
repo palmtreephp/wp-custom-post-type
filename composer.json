@@ -1,0 +1,20 @@
+{
+  "name": "palmtree/wordpress-custom-post-type",
+  "type": "library",
+  "description": "WordPress Custom Post Types",
+  "license": "MIT",
+  "require": {
+    "palmtree/argparser": "^1.0"
+  },
+  "authors": [
+    {
+      "name": "Andy Palmer",
+      "email": "andy@andypalmer.me"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Palmtree\\WordPress\\CustomPostType\\": ""
+    }
+  }
+}
