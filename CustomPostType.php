@@ -33,7 +33,7 @@ class CustomPostType
 
     public $postType;
     protected $name;
-    protected $nameSingular;
+    protected $singularName;
     protected $actions = [];
     protected $slug;
     public $front = '';
@@ -68,14 +68,24 @@ class CustomPostType
 
     protected function setPermalinkStructure()
     {
-        if (! $this->isPublic()) {
+        if (!$this->isPublic()) {
             return;
         }
 
-        if (! empty($this->taxonomies)) {
+        if (!empty($this->taxonomies)) {
             $taxonomy = reset($this->taxonomies);
-            $this->addRewriteRule("{$this->front}/(.+)/(.+)/?", 'index.php?' . $this->postType . '=$matches[2]');
-            $this->addRewriteRule("{$this->front}/(.+)/?", 'index.php?' . $taxonomy . '=$matches[1]');
+
+            // /front/term-slug/post-slug matches a post
+            $this->addRewriteRule(
+                sprintf('%s/(.+)/(.+)/?', $this->front),
+                sprintf('index.php?%s=$matches[2]', $this->postType)
+            );
+
+            // /front/term-slug matches a taxonomy term
+            $this->addRewriteRule(
+                sprintf('%s/(.+)/?', $this->front),
+                sprintf('index.php?%s=$matches[1]', $taxonomy->name)
+            );
         }
     }
 
@@ -97,19 +107,21 @@ class CustomPostType
 
         foreach ($this->taxonomies as $key => $taxonomy) {
             if ($taxonomy instanceof CustomTaxonomy) {
+                $taxonomy->addPostType($this->postType);
                 continue;
             }
 
             if ($taxonomy === true || is_int($key)) {
                 if (is_int($key)) {
+                    unset($this->taxonomies[$key]);
                     $key = $taxonomy;
                 }
-                $this->taxonomies[$key] = new CustomTaxonomy($key, null, $this->postType);
+                //$this->taxonomies[$key] = new CustomTaxonomy($key, null, $this->postType, $args);
             } else if (is_array($taxonomy)) {
                 $args = array_merge($args, $taxonomy);
             }
 
-            if (! array_key_exists('public', $args) && ! $this->isPublic()) {
+            if (!array_key_exists('public', $args) && !$this->isPublic()) {
                 $args['public'] = false;
             }
 
@@ -138,11 +150,11 @@ class CustomPostType
         $defaults['labels']          = $this->getLabels();
         $defaults['rewrite']['slug'] = $this->slug;
 
-        if (! array_key_exists('has_archive', $this->args) || $this->args['has_archive'] !== false) {
+        if (!array_key_exists('has_archive', $this->args) || $this->args['has_archive'] !== false) {
             $defaults['has_archive'] = $this->front;
         }
 
-        if (! $this->isPublic()) {
+        if (!$this->isPublic()) {
             $defaults = array_merge($defaults, [
                 'public'              => false,
                 'publicly_queryable'  => false,
@@ -159,7 +171,7 @@ class CustomPostType
     {
         $post = get_post($post_id);
 
-        if (! $post instanceof \WP_Post || $post->post_type !== $this->postType) {
+        if (!$post instanceof \WP_Post || $post->post_type !== $this->postType) {
             return $link;
         }
 
@@ -190,7 +202,7 @@ class CustomPostType
             }
         }
 
-        if (! $term instanceof \WP_Term) {
+        if (!$term instanceof \WP_Term) {
             $terms = wp_get_object_terms($post_id, $taxonomy);
 
             if ($terms) {
@@ -207,26 +219,24 @@ class CustomPostType
             $this->name = ucwords(str_replace('_', ' ', $this->postType));
         }
 
-        if (empty($this->nameSingular)) {
-            $this->nameSingular = $this->name;
-            $this->name         = $this->nameSingular . 's';
+        if (empty($this->singularName)) {
+            $this->singularName = $this->name;
+            $this->name         = $this->singularName . 's';
         }
 
         if (empty($this->slug)) {
-            if (empty($this->taxonomies)) {
-                $this->slug = $this->postType . 's';
-            } else {
-                foreach ($this->taxonomies as $key => $taxonomy) {
-                    if (is_string($key)) {
-                        $taxonomy = $key;
-                    }
-                    $this->slug = "{$this->front}/%{$taxonomy}%";
-                    break;
-                }
-            }
+            $this->slug = $this->postType . 's';
         }
 
-        if (empty($this->labels) && ! empty($this->name) && ! empty($this->nameSingular)) {
+        foreach ($this->taxonomies as $key => $taxonomy) {
+            if (is_string($key)) {
+                $taxonomy = $key;
+            }
+            $this->slug = "{$this->front}/%{$taxonomy}%";
+            break;
+        }
+
+        if (empty($this->labels) && !empty($this->name) && !empty($this->singularName)) {
             $this->labels = $this->getLabels();
         }
 
@@ -240,21 +250,31 @@ class CustomPostType
         if ($this->labels === null) {
             $this->labels = [
                 'name'               => _x($this->name, $this->postType),
-                'singular_name'      => _x($this->nameSingular, $this->postType),
+                'singular_name'      => _x($this->singularName, $this->postType),
                 'add_new'            => _x('Add New', $this->postType),
-                'add_new_item'       => _x('Add New ' . $this->nameSingular, $this->postType),
-                'edit_item'          => _x('Edit ' . $this->nameSingular, $this->postType),
-                'new_item'           => _x('New ' . $this->nameSingular, $this->postType),
-                'view_item'          => _x('View ' . $this->nameSingular, $this->postType),
+                'add_new_item'       => _x('Add New ' . $this->singularName, $this->postType),
+                'edit_item'          => _x('Edit ' . $this->singularName, $this->postType),
+                'new_item'           => _x('New ' . $this->singularName, $this->postType),
+                'view_item'          => _x('View ' . $this->singularName, $this->postType),
                 'search_items'       => _x('Search ' . $this->name, $this->postType),
                 'not_found'          => _x('No ' . $this->name . ' found', $this->postType),
                 'not_found_in_trash' => _x('No ' . $this->name . ' found in Trash', $this->postType),
-                'parent_item_colon'  => _x('Parent ' . $this->nameSingular . ':', $this->postType),
+                'parent_item_colon'  => _x('Parent ' . $this->singularName . ':', $this->postType),
                 'menu_name'          => _x($this->name, $this->postType),
             ];
         }
 
         return $this->labels;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function setSingularName($name)
+    {
+        $this->singularName = $name;
     }
 
     /**
