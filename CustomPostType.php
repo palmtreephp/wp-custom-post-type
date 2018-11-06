@@ -185,6 +185,8 @@ class CustomPostType
 
                 return $slug;
             }
+
+            return $matches[0];
         }, $link);
 
         return $link;
