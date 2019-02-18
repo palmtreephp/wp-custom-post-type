@@ -1,21 +1,34 @@
 {
-  "name": "palmtree/wp-custom-post-type",
-  "type": "library",
-  "description": "WordPress Custom Post Types",
-  "license": "MIT",
-  "require": {
-    "palmtree/argparser": "^1.1",
-    "palmtree/nameconverter": "^1.0"
-  },
-  "authors": [
-    {
-      "name": "Andy Palmer",
-      "email": "andy@andypalmer.me"
+    "name": "palmtree/wp-custom-post-type",
+    "type": "library",
+    "description": "WordPress Custom Post Types",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.6",
+        "palmtree/argparser": "^1.2",
+        "palmtree/nameconverter": "^1.0",
+        "palmtree/collection": "^0.3.0"
+    },
+    "require-dev": {
+        "roots/wordpress": "~5.0"
+    },
+    "authors": [
+        {
+            "name": "Andy Palmer",
+            "email": "andy@andypalmer.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Palmtree\\WordPress\\CustomPostType\\": "src"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "5.6"
+        }
+    },
+    "extra": {
+        "wordpress-install-dir": "vendor/roots/wordpress"
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Palmtree\\WordPress\\CustomPostType\\": ""
-    }
-  }
 }
