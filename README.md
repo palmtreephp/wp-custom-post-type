@@ -1,14 +1,13 @@
-# WordPress Custom Post Types
+# :palm_tree: WordPress Custom Post Types
 
 [![License](http://img.shields.io/packagist/l/palmtree/curl.svg)](LICENSE)
 
-Library to assist in the creation of custom post types within WordPress
+Library to assist in the creation of custom post types within WordPress.
 
 ## Requirements
 * PHP >= 5.6
 
 ## Installation
-
 Use composer to add the package to your dependencies:
 ```bash
 composer require palmtree/wp-custom-post-type
@@ -51,5 +50,4 @@ $project = new CustomPostType([
 ```
 
 ## License
-
 Released under the [MIT license](LICENSE)
