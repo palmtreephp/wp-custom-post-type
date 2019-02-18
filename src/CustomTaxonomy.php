@@ -2,6 +2,9 @@
 
 namespace Palmtree\WordPress\CustomPostType;
 
+use Palmtree\ArgParser\ArgParser;
+use Palmtree\NameConverter\SnakeCaseToHumanNameConverter;
+
 class CustomTaxonomy
 {
     public static $defaultArgs = [
@@ -14,39 +17,102 @@ class CustomTaxonomy
             'with_front' => false,
         ],
     ];
+    /** @var string */
+    private $taxonomy;
+    /** @var string */
+    private $name;
+    /** @var string */
+    private $singularName;
+    /** @var bool */
+    private $public = true;
+    /** @var array */
+    private $args = [];
+    /** @var array */
+    private $labels = [];
+    /** @var array */
+    private $postTypes = [];
 
-    public $taxonomy;
-    public $name;
-    protected $singularName;
-    protected $public = true;
-
-    protected $args = [];
-    protected $labels = [];
-
-    protected $postTypes = [];
-
-    public function __construct($taxonomy, $name = '', $postTypes = [], $args = [])
+    public function __construct($taxonomy, array $postTypes = [], array $args = [])
     {
         $this->taxonomy = $taxonomy;
-        $this->name     = $name;
+
+        $parser = new ArgParser($args);
+        $parser->parseSetters($this);
 
         $this->setupProperties();
 
         $this->args      = wp_parse_args($args, $this->getDefaultArgs());
-        $this->postTypes = (array)$postTypes;
+        $this->postTypes = $postTypes;
 
-        add_action('init', [$this, 'register']);
+        add_action('init', function () {
+            $postTypes = array_map(function (CustomPostType $customPostType) {
+                return $customPostType->getPostType();
+            }, $this->postTypes);
+            register_taxonomy($this->taxonomy, $postTypes, $this->args);
+        });
     }
 
-    public function register()
+    /**
+     * @return string
+     */
+    public function getName()
     {
-        register_taxonomy($this->taxonomy, $this->postTypes, $this->args);
+        return $this->name;
     }
 
-    protected function setupProperties()
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $singularName
+     */
+    public function setSingularName($singularName)
+    {
+        $this->singularName = $singularName;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * @param bool $public
+     */
+    public function setPublic($public)
+    {
+        $this->public = $public;
+    }
+
+    public function addPostType($postType)
+    {
+        if ($postType instanceof CustomPostType) {
+            $postType = $postType->getPostType();
+        }
+
+        $this->postTypes = $postType;
+    }
+
+    public function setPostTypes(array $postTypes)
+    {
+        foreach ($postTypes as $postType) {
+            $this->addPostType($postType);
+        }
+    }
+
+    private function setupProperties()
     {
         if (empty($this->name)) {
-            $this->name = ucwords(str_replace('_', ' ', $this->taxonomy));
+            $normalizer = new SnakeCaseToHumanNameConverter();
+            $this->name = $normalizer->normalize($this->taxonomy);
         }
 
         if (empty($this->singularName)) {
@@ -67,7 +133,7 @@ class CustomTaxonomy
         }
     }
 
-    protected function getDefaultArgs()
+    private function getDefaultArgs()
     {
         $defaults = static::$defaultArgs;
 
@@ -76,7 +142,7 @@ class CustomTaxonomy
         return $defaults;
     }
 
-    protected function getLabels()
+    private function getLabels()
     {
         $labels = [
             'name'                       => _x($this->name, 'taxonomy general name'),
@@ -98,37 +164,5 @@ class CustomTaxonomy
         ];
 
         return $labels;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function isPublic()
-    {
-        return $this->public;
-    }
-
-    /**
-     * @param mixed $public
-     */
-    public function setPublic($public)
-    {
-        $this->public = $public;
-    }
-
-    public function addPostType($postType)
-    {
-        if ($postType instanceof CustomPostType) {
-            $postType = $postType->getPostType();
-        }
-
-        $this->postTypes = $postType;
-    }
-
-    public function setPostTypes(array $postTypes)
-    {
-        foreach ($postTypes as $postType) {
-            $this->addPostType($postType);
-        }
     }
 }

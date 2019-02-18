@@ -10,10 +10,15 @@ class CustomPostType
     private $name;
     /** @var string Singular name e.g Project */
     private $singularName;
-    /** @var string Slug e.g my-projects */
-    private $slug;
-    /** @var string */
+    /** @var string Front of URL structure for this post type e.g my-projects */
     private $front = '';
+
+    /** @var string Generated slug for this post type.
+     *  If the post type has a taxonomy slug is generated as: <front>/%term%
+     *  If there are no taxonomies, slug is generated as <front>
+     */
+    private $slug;
+
     /** @var CustomTaxonomy[] $taxonomies */
     private $taxonomies = [];
     /** @var bool Whether the post type is publicly accessible via URL, search etc */
@@ -293,7 +298,7 @@ class CustomPostType
             // e.g: /shop/t-shirts
             $this->addRewriteRule(
                 sprintf('%s/(.+)/?', $this->getFront()),
-                sprintf('index.php?%s=$matches[1]', $taxonomy->name)
+                sprintf('index.php?%s=$matches[1]', $taxonomy->getName())
             );
         }
     }

@@ -35,7 +35,7 @@ class TaxonomyFactory
                 $args['public'] = false;
             }
 
-            $taxonomies[$key] = new CustomTaxonomy($key, null, $postType->getPostType(), $args);
+            $taxonomies[$key] = new CustomTaxonomy($key, [$postType], $args);
         }
 
         return $taxonomies;

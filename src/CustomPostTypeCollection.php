@@ -2,13 +2,18 @@
 
 namespace Palmtree\WordPress\CustomPostType;
 
-use Palmtree\Collection\Collection;
+use Palmtree\Collection\Map;
 
-class CustomPostTypeCollection extends Collection
+/**
+ * @method CustomPostType get(string $key)
+ */
+class CustomPostTypeCollection extends Map
 {
     public function __construct($items = [], $type = CustomPostType::class)
     {
-        parent::__construct($items, $type);
+        parent::__construct($type);
+
+        $this->add($items);
     }
 
     public function set($key, $args)

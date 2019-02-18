@@ -63,6 +63,10 @@ class CustomPostTypeHydrator
             break;
         }
 
+        if (empty($this->postType->getSlug() && !empty($this->postType->getFront()))) {
+            $this->postType->setSlug($this->postType->getFront());
+        }
+
         if (empty($this->postType->getSlug())) {
             $this->postType->setSlug($this->postType->getPostType() . 's');
         }
@@ -72,7 +76,7 @@ class CustomPostTypeHydrator
 
     private function getDefaultArgs()
     {
-        $defaults = static::$defaultArgs;
+        $defaults = self::$defaultArgs;
 
         $defaults['labels']          = $this->postType->getLabels()->toArray();
         $defaults['rewrite']['slug'] = $this->postType->getSlug();
