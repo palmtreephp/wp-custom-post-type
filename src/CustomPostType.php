@@ -147,7 +147,7 @@ class CustomPostType
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublic()
     {
@@ -155,7 +155,7 @@ class CustomPostType
     }
 
     /**
-     * @param boolean $public
+     * @param bool $public
      *
      * @return self
      */

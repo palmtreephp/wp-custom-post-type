@@ -54,7 +54,7 @@ class CustomPostTypeHydrator
         }
 
         foreach ($this->postType->getTaxonomies() as $key => $taxonomy) {
-            if (is_string($key)) {
+            if (\is_string($key)) {
                 $taxonomy = $key;
             }
 
@@ -83,7 +83,7 @@ class CustomPostTypeHydrator
 
         $args = $this->postType->getArgs();
 
-        if (!array_key_exists('has_archive', $args) || $args['has_archive'] !== false) {
+        if (!\array_key_exists('has_archive', $args) || $args['has_archive'] !== false) {
             $defaults['has_archive'] = $this->postType->getFront();
         }
 

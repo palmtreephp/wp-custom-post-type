@@ -21,17 +21,17 @@ class TaxonomyFactory
                 continue;
             }
 
-            if ($taxonomy === true || is_int($key)) {
-                if (is_int($key)) {
+            if ($taxonomy === true || \is_int($key)) {
+                if (\is_int($key)) {
                     unset($taxonomies[$key]);
                     $key = $taxonomy;
                 }
                 //$postType->taxonomies[$key] = new CustomTaxonomy($key, null, $postType->postType, $args);
-            } elseif (is_array($taxonomy)) {
+            } elseif (\is_array($taxonomy)) {
                 $args = array_merge($args, $taxonomy);
             }
 
-            if (!array_key_exists('public', $args) && !$postType->isPublic()) {
+            if (!\array_key_exists('public', $args) && !$postType->isPublic()) {
                 $args['public'] = false;
             }
 

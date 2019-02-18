@@ -18,7 +18,7 @@ class CustomPostTypeCollection extends Map
 
     public function set($key, $args)
     {
-        if (is_array($args) && !isset($args['post_type'])) {
+        if (\is_array($args) && !isset($args['post_type'])) {
             $args['post_type'] = $key;
         }
 
