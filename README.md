@@ -5,7 +5,7 @@
 Library to assist in the creation of custom post types within WordPress.
 
 ## Requirements
-* PHP >= 5.6
+* PHP >= 7.1
 
 ## Installation
 Use composer to add the package to your dependencies:
@@ -43,7 +43,7 @@ $project = new CustomPostType([
         ],
         [
             'name' => 'Project Categories',
-            'singluar_name' => 'Project Category',    
+            'singluar_name' => 'Project Category',
         ]
     ],
 ]);

@@ -19,7 +19,7 @@ class CustomPostType
      */
     private $slug;
 
-    /** @var CustomTaxonomy[] $taxonomies */
+    /** @var CustomTaxonomy[] */
     private $taxonomies = [];
     /** @var bool Whether the post type is publicly accessible via URL, search etc */
     private $public = true;
@@ -231,9 +231,6 @@ class CustomPostType
         return $this->rewriteRules;
     }
 
-    /**
-     * @param array $rewriteRules
-     */
     public function setRewriteRules(array $rewriteRules)
     {
         $this->rewriteRules = $rewriteRules;

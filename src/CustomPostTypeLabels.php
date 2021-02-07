@@ -77,7 +77,7 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getIterator()
     {
@@ -85,7 +85,7 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function offsetExists($offset)
     {
@@ -93,7 +93,7 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function offsetGet($offset)
     {
@@ -101,7 +101,7 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function offsetSet($offset, $value)
     {
@@ -109,7 +109,7 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function offsetUnset($offset)
     {

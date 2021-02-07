@@ -4,14 +4,14 @@
     "description": "WordPress Custom Post Types",
     "license": "MIT",
     "require": {
-        "php": ">=5.6",
-        "palmtree/argparser": "~1.2",
-        "palmtree/nameconverter": "~1.0",
+        "php": ">=7.1",
+        "palmtree/argparser": "^2.0.0",
+        "palmtree/nameconverter": "^2.0.0",
         "palmtree/collection": "~1.0"
     },
     "require-dev": {
-        "roots/wordpress": "~5.0",
-        "friendsofphp/php-cs-fixer": "^2.14"
+        "roots/wordpress": "^5.6.0",
+        "palmtree/php-cs-fixer-config": "^1.0.3"
     },
     "authors": [
         {
@@ -24,12 +24,10 @@
             "Palmtree\\WordPress\\CustomPostType\\": "src"
         }
     },
-    "config": {
-        "platform": {
-            "php": "5.6"
-        }
-    },
     "extra": {
         "wordpress-install-dir": "vendor/roots/wordpress"
+    },
+    "scripts": {
+        "fix": "vendor/bin/php-cs-fixer fix --diff"
     }
 }
