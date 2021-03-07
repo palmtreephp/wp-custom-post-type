@@ -58,7 +58,7 @@ class CustomPostType
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -70,7 +70,7 @@ class CustomPostType
         return $this;
     }
 
-    public function getSingularName(): string
+    public function getSingularName(): ?string
     {
         return $this->singularName;
     }
