@@ -7,6 +7,7 @@ use Palmtree\NameConverter\SnakeCaseToHumanNameConverter;
 
 class CustomTaxonomy
 {
+    /** @var array */
     public static $defaultArgs = [
         'hierarchical'      => true,
         'show_ui'           => true,
@@ -26,11 +27,11 @@ class CustomTaxonomy
     /** @var bool */
     private $public = true;
     /** @var array */
-    private $args = [];
+    private $args;
     /** @var array */
     private $labels = [];
     /** @var array */
-    private $postTypes = [];
+    private $postTypes;
 
     public function __construct($taxonomy, array $postTypes = [], array $args = [])
     {
@@ -52,63 +53,58 @@ class CustomTaxonomy
         });
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @param string $singularName
-     */
-    public function setSingularName($singularName)
+    public function setSingularName(string $singularName): self
     {
         $this->singularName = $singularName;
+
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return $this->public;
     }
 
-    /**
-     * @param bool $public
-     */
-    public function setPublic($public)
+    public function setPublic(bool $public): self
     {
         $this->public = $public;
+
+        return $this;
     }
 
-    public function addPostType($postType)
+    public function addPostType($postType): self
     {
         if ($postType instanceof CustomPostType) {
             $postType = $postType->getPostType();
         }
 
         $this->postTypes = $postType;
+
+        return $this;
     }
 
-    public function setPostTypes(array $postTypes)
+    public function setPostTypes(array $postTypes): self
     {
         foreach ($postTypes as $postType) {
             $this->addPostType($postType);
         }
+
+        return $this;
     }
 
-    private function setupProperties()
+    private function setupProperties(): void
     {
         if (empty($this->name)) {
             $normalizer = new SnakeCaseToHumanNameConverter();
@@ -133,7 +129,7 @@ class CustomTaxonomy
         }
     }
 
-    private function getDefaultArgs()
+    private function getDefaultArgs(): array
     {
         $defaults = static::$defaultArgs;
 
@@ -142,7 +138,7 @@ class CustomTaxonomy
         return $defaults;
     }
 
-    private function getLabels()
+    private function getLabels(): array
     {
         $labels = [
             'name'                       => _x($this->name, 'taxonomy general name'),

@@ -4,19 +4,19 @@ namespace Palmtree\WordPress\CustomPostType;
 
 use Palmtree\Collection\Map;
 
-/**
- * @method CustomPostType get(string $key)
- */
-class CustomPostTypeCollection extends Map
+class CustomPostTypeCollection
 {
-    public function __construct($items = [], $type = CustomPostType::class)
-    {
-        parent::__construct($type);
+    /** @var Map<string, CustomPostType> */
+    private $map;
 
-        $this->add($items);
+    public function __construct($items = [])
+    {
+        $this->map = new Map(CustomPostType::class);
+
+        $this->map->add($items);
     }
 
-    public function set($key, $args)
+    public function set(string $key, $args): self
     {
         if (\is_array($args) && !isset($args['post_type'])) {
             $args['post_type'] = $key;
@@ -24,6 +24,13 @@ class CustomPostTypeCollection extends Map
 
         $customPostType = new CustomPostType($args);
 
-        return parent::set($key, $customPostType);
+        $this->map->set($key, $customPostType);
+
+        return $this;
+    }
+
+    public function get(string $key): CustomPostType
+    {
+        return $this->map->get($key);
     }
 }

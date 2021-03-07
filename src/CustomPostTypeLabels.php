@@ -29,47 +29,34 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
         ]);
     }
 
-    /**
-     * @param CustomPostType $postType
-     *
-     * @return self
-     */
-    public function setPostType($postType)
+    public function setPostType(CustomPostType $postType): self
     {
         $this->postType = $postType;
 
         return $this;
     }
 
-    /**
-     * @return CustomPostType
-     */
-    public function getPostType()
+    public function getPostType(): CustomPostType
     {
         return $this->postType;
     }
 
     /**
      * @param mixed $labels
-     *
-     * @return self
      */
-    public function set($labels)
+    public function set($labels): self
     {
         $this->labels = $labels;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->labels;
     }
 
-    protected function getX($text, $context = [])
+    protected function getX($text, $context = []): string
     {
         $context = (array)$context;
 

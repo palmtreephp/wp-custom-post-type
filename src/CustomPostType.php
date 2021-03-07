@@ -46,138 +46,84 @@ class CustomPostType
         add_filter('rewrite_rules_array', [$this, 'filterRewriteRules']);
     }
 
-    /**
-     * @return string
-     */
-    public function getPostType()
+    public function getPostType(): string
     {
         return $this->postType;
     }
 
-    /**
-     * @param string $postType
-     *
-     * @return self
-     */
-    public function setPostType($postType)
+    public function setPostType(string $postType): self
     {
         $this->postType = $postType;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSingularName()
+    public function getSingularName(): string
     {
         return $this->singularName;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setSingularName($name)
+    public function setSingularName(string $name): self
     {
         $this->singularName = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     *
-     * @return self
-     */
-    public function setSlug($slug)
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFront()
+    public function getFront(): string
     {
         return $this->front;
     }
 
-    /**
-     * @param string $front
-     *
-     * @return self
-     */
-    public function setFront($front)
+    public function setFront(string $front): self
     {
         $this->front = $front;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return $this->public;
     }
 
-    /**
-     * @param bool $public
-     *
-     * @return self
-     */
-    public function setPublic($public)
+    public function setPublic(bool $public): self
     {
         $this->public = $public;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getArgs()
+    public function getArgs(): array
     {
         return $this->args;
     }
 
-    /**
-     * @param array $args
-     */
-    public function setArgs($args)
+    public function setArgs(array $args)
     {
         $this->args = $args;
     }
@@ -191,12 +137,7 @@ class CustomPostType
         return $this->labels;
     }
 
-    /**
-     * @param array $labels
-     *
-     * @return $this
-     */
-    public function setLabels($labels)
+    public function setLabels(array $labels): self
     {
         $this->labels = $labels;
 
@@ -204,44 +145,41 @@ class CustomPostType
     }
 
     /**
-     * @return CustomTaxonomy[]
+     * @return array<CustomTaxonomy>
      */
-    public function getTaxonomies()
+    public function getTaxonomies(): array
     {
         return $this->taxonomies;
     }
 
     /**
-     * @param CustomTaxonomy[] $taxonomies
-     *
-     * @return CustomPostType
+     * @param array<CustomTaxonomy> $taxonomies
      */
-    public function setTaxonomies($taxonomies)
+    public function setTaxonomies(array $taxonomies): self
     {
         $this->taxonomies = $taxonomies;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getRewriteRules()
+    public function getRewriteRules(): array
     {
         return $this->rewriteRules;
     }
 
-    public function setRewriteRules(array $rewriteRules)
+    public function setRewriteRules(array $rewriteRules): self
     {
         $this->rewriteRules = $rewriteRules;
+
+        return $this;
     }
 
-    public function addRewriteRule($pattern, $match)
+    public function addRewriteRule($pattern, $match): void
     {
         $this->rewriteRules[$pattern] = $match;
     }
 
-    public function filterRewriteRules($rules)
+    public function filterRewriteRules(array $rules): array
     {
         $newRules = $this->getRewriteRules();
 
@@ -252,7 +190,7 @@ class CustomPostType
         return array_merge($rules, $newRules);
     }
 
-    public function filterPostTypeLink($link, $post_id)
+    public function filterPostTypeLink($link, $post_id): string
     {
         $post = get_post($post_id);
 
@@ -275,7 +213,7 @@ class CustomPostType
         return $link;
     }
 
-    private function setPermalinkStructure()
+    private function setPermalinkStructure(): void
     {
         if (!$this->isPublic()) {
             return;

@@ -7,6 +7,7 @@ use Palmtree\NameConverter\SnakeCaseToHumanNameConverter;
 
 class CustomPostTypeHydrator
 {
+    /** @var array */
     public static $defaultArgs = [
         'labels'       => [],
         'hierarchical' => false,
@@ -39,7 +40,7 @@ class CustomPostTypeHydrator
         $this->postType = $postType;
     }
 
-    public function hydrate($args = [])
+    public function hydrate($args = []): void
     {
         $this->postType->setArgs($this->parseArgs($args));
 
@@ -74,7 +75,7 @@ class CustomPostTypeHydrator
         $this->postType->setArgs(wp_parse_args($this->postType->getArgs(), $this->getDefaultArgs()));
     }
 
-    private function getDefaultArgs()
+    private function getDefaultArgs(): array
     {
         $defaults = self::$defaultArgs;
 
@@ -100,7 +101,10 @@ class CustomPostTypeHydrator
         return $defaults;
     }
 
-    public function parseArgs($args)
+    /**
+     * @param array|string $args
+     */
+    public function parseArgs($args): array
     {
         $parser = new ArgParser($args, 'post_type');
 

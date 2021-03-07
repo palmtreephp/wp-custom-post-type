@@ -4,7 +4,7 @@ namespace Palmtree\WordPress\CustomPostType;
 
 class TaxonomyFactory
 {
-    public static function createTaxonomies(CustomPostType $postType)
+    public static function createTaxonomies(CustomPostType $postType): array
     {
         $args = [
             'rewrite' => [
@@ -41,9 +41,9 @@ class TaxonomyFactory
         return $taxonomies;
     }
 
-    public static function getPrimaryTerm($taxonomy, $post_id)
+    public static function getPrimaryTerm($taxonomy, $post_id): ?\WP_Term
     {
-        $term = false;
+        $term = null;
         if (class_exists('WPSEO_Primary_Term')) {
             $primary_term = new \WPSEO_Primary_Term($taxonomy, $post_id);
             $term_id      = $primary_term->get_primary_term();
