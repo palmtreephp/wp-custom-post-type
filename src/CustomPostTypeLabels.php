@@ -6,10 +6,8 @@ namespace Palmtree\WordPress\CustomPostType;
 
 class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
 {
-    /** @var CustomPostType */
-    private $postType;
-    /** @var array */
-    private $labels;
+    private CustomPostType $postType;
+    private array $labels;
 
     public function __construct(CustomPostType $postType)
     {
@@ -43,10 +41,7 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
         return $this->postType;
     }
 
-    /**
-     * @param mixed $labels
-     */
-    public function set($labels): self
+    public function set(array $labels): self
     {
         $this->labels = $labels;
 
@@ -65,42 +60,27 @@ class CustomPostTypeLabels implements \ArrayAccess, \IteratorAggregate
         return _x(vsprintf($text, $context), $this->postType->getPostType());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->labels);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->labels[$offset]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->labels[$offset];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->labels[$offset] = $value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->labels[$offset]);
     }

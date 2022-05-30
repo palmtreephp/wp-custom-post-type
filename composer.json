@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": ">=7.1",
+        "php": ">=8.0",
         "palmtree/argparser": "^2.0.0",
         "palmtree/nameconverter": "^2.0.0"
     },
