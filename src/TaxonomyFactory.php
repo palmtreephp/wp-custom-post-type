@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Palmtree\WordPress\CustomPostType;
 
 class TaxonomyFactory
@@ -26,7 +28,7 @@ class TaxonomyFactory
                     unset($taxonomies[$key]);
                     $key = $taxonomy;
                 }
-                //$postType->taxonomies[$key] = new CustomTaxonomy($key, null, $postType->postType, $args);
+                // $postType->taxonomies[$key] = new CustomTaxonomy($key, null, $postType->postType, $args);
             } elseif (\is_array($taxonomy)) {
                 $args = array_merge($args, $taxonomy);
             }
@@ -46,7 +48,7 @@ class TaxonomyFactory
         $term = null;
         if (class_exists('WPSEO_Primary_Term')) {
             $primary_term = new \WPSEO_Primary_Term($taxonomy, $post_id);
-            $term_id      = $primary_term->get_primary_term();
+            $term_id = $primary_term->get_primary_term();
 
             if ($term_id) {
                 $term = get_term($term_id, $taxonomy);

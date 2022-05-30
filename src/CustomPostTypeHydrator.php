@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Palmtree\WordPress\CustomPostType;
 
 use Palmtree\ArgParser\ArgParser;
@@ -79,7 +81,7 @@ class CustomPostTypeHydrator
     {
         $defaults = self::$defaultArgs;
 
-        $defaults['labels']          = $this->postType->getLabels()->toArray();
+        $defaults['labels'] = $this->postType->getLabels()->toArray();
         $defaults['rewrite']['slug'] = $this->postType->getSlug();
 
         $args = $this->postType->getArgs();

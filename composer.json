@@ -1,17 +1,16 @@
 {
     "name": "palmtree/wp-custom-post-type",
-    "type": "library",
     "description": "WordPress Custom Post Types",
+    "type": "library",
     "license": "MIT",
     "require": {
         "php": ">=7.1",
         "palmtree/argparser": "^2.0.0",
-        "palmtree/nameconverter": "^2.0.0",
-        "palmtree/collection": "^3.0|^4.0"
+        "palmtree/nameconverter": "^2.0.0"
     },
     "require-dev": {
         "roots/wordpress": "^5.6.0",
-        "palmtree/php-cs-fixer-config": "^1.0.3"
+        "palmtree/php-cs-fixer-config": "^2.0"
     },
     "authors": [
         {
@@ -29,5 +28,10 @@
     },
     "scripts": {
         "fix": "vendor/bin/php-cs-fixer fix --diff"
+    },
+    "config": {
+        "allow-plugins": {
+            "roots/wordpress-core-installer": true
+        }
     }
 }

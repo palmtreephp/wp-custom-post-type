@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Palmtree\WordPress\CustomPostType;
 
 use Palmtree\ArgParser\ArgParser;
@@ -42,7 +44,7 @@ class CustomTaxonomy
 
         $this->setupProperties();
 
-        $this->args      = wp_parse_args($args, $this->getDefaultArgs());
+        $this->args = wp_parse_args($args, $this->getDefaultArgs());
         $this->postTypes = $postTypes;
 
         add_action('init', function () {
@@ -113,7 +115,7 @@ class CustomTaxonomy
 
         if (empty($this->singularName)) {
             $this->singularName = $this->name;
-            $this->name         = $this->singularName . 's';
+            $this->name = $this->singularName . 's';
         }
 
         if (empty($this->taxonomy)) {
